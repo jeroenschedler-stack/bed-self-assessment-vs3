@@ -451,7 +451,7 @@ p{color:#434343;line-height:1.6;}
 
     async function renderQ1(){
       const qs = await loadQuestions();
-      const slice = qs.slice(0, 10);
+      const slice = qs.slice(0, 16);
       const mount = document.getElementById('q1List');
       mount.innerHTML = slice.map(q => renderQuestionHTML(q)).join('');
       slice.forEach(q => {
@@ -465,7 +465,7 @@ p{color:#434343;line-height:1.6;}
 
     async function renderQ2(){
       const qs = await loadQuestions();
-      const slice = qs.slice(10, 20);
+      const slice = qs.slice(16, 32);
       const mount = document.getElementById('q2List');
       mount.innerHTML = slice.map(q => renderQuestionHTML(q)).join('');
       slice.forEach(q => {
@@ -557,7 +557,7 @@ function renderScore(){
   const page = document.querySelector('.sar-page[data-step="score"]');
   if(!page) return;
   const qs = sarState.questions || [];
-  const total = qs.length * 5 || 100;
+  const total = qs.length * 5;
   let sum = 0;
   qs.forEach(q => { sum += (sarState.answers[q.id] || 0); });
   const pct = total ? Math.round((sum / total) * 100) : 0;
