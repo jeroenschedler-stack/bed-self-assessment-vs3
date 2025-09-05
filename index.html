@@ -564,6 +564,23 @@ function renderScore(){
 }
 let peerBound = false;
 function ensurePeerBindings(){
+  // --- Simplified live validation for peer inputs ---
+  const peerNameInput = document.getElementById('peerName');
+  const peerEmailInput = document.getElementById('peerEmail');
+  const peerNextButton = document.getElementById('peerNext');
+
+  function validatePeerForm() {
+    const name = peerNameInput.value.trim();
+    const email = peerEmailInput.value.trim();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    peerNextButton.disabled = !(name && emailValid);
+  }
+
+  if (peerNameInput) peerNameInput.addEventListener('input', validatePeerForm);
+  if (peerEmailInput) peerEmailInput.addEventListener('input', validatePeerForm);
+  validatePeerForm();
+  // --- End simplified peer validation ---
+
   if(peerBound){ validatePeer(); return; }
   peerBound = true;
   const card = document.querySelector('.sar-page[data-step="peer"]');
