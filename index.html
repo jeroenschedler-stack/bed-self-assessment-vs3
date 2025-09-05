@@ -564,6 +564,29 @@ function renderScore(){
 }
 let peerBound = false;
 function ensurePeerBindings(){
+  // --- Reliable Done button validation ---
+  const peerNameInput = document.getElementById('peerName');
+  const peerEmailInput = document.getElementById('peerEmail');
+  const peerNextButton = document.getElementById('peerNext');
+
+  function validatePeerNext() {
+    const name = peerNameInput?.value.trim();
+    const email = peerEmailInput?.value.trim();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const hotelSelected = !!(sarState.peer && sarState.peer.hotel);
+    peerNextButton.disabled = !(name && emailValid && hotelSelected);
+  }
+
+  if (peerNameInput) peerNameInput.addEventListener('input', validatePeerNext);
+  if (peerEmailInput) peerEmailInput.addEventListener('input', validatePeerNext);
+  document.querySelectorAll('.sar-page[data-step="peer"] .sar-hotel').forEach(btn => {
+    btn.addEventListener('click', validatePeerNext);
+  });
+
+  // Trigger initial validation
+  validatePeerNext();
+  // --- End reliable Done button validation ---
+
   // --- Simplified live validation for peer inputs ---
   const peerNameInput = document.getElementById('peerName');
   const peerEmailInput = document.getElementById('peerEmail');
