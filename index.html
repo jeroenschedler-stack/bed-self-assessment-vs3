@@ -564,46 +564,6 @@ function renderScore(){
 }
 let peerBound = false;
 function ensurePeerBindings(){
-  // --- Reliable Done button validation ---
-  const peerNameInput = document.getElementById('peerName');
-  const peerEmailInput = document.getElementById('peerEmail');
-  const peerNextButton = document.getElementById('peerNext');
-
-  function validatePeerNext() {
-    const name = peerNameInput?.value.trim();
-    const email = peerEmailInput?.value.trim();
-    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    const hotelSelected = !!(sarState.peer && sarState.peer.hotel);
-    peerNextButton.disabled = !(name && emailValid && hotelSelected);
-  }
-
-  if (peerNameInput) peerNameInput.addEventListener('input', validatePeerNext);
-  if (peerEmailInput) peerEmailInput.addEventListener('input', validatePeerNext);
-  document.querySelectorAll('.sar-page[data-step="peer"] .sar-hotel').forEach(btn => {
-    btn.addEventListener('click', validatePeerNext);
-  });
-
-  // Trigger initial validation
-  validatePeerNext();
-  // --- End reliable Done button validation ---
-
-  // --- Simplified live validation for peer inputs ---
-  const peerNameInput = document.getElementById('peerName');
-  const peerEmailInput = document.getElementById('peerEmail');
-  const peerNextButton = document.getElementById('peerNext');
-
-  function validatePeerForm() {
-    const name = peerNameInput.value.trim();
-    const email = peerEmailInput.value.trim();
-    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    peerNextButton.disabled = !(name && emailValid);
-  }
-
-  if (peerNameInput) peerNameInput.addEventListener('input', validatePeerForm);
-  if (peerEmailInput) peerEmailInput.addEventListener('input', validatePeerForm);
-  validatePeerForm();
-  // --- End simplified peer validation ---
-
   if(peerBound){ validatePeer(); return; }
   peerBound = true;
   const card = document.querySelector('.sar-page[data-step="peer"]');
@@ -734,7 +694,7 @@ function validatePeer(){
   const hasName = (nameEl?.value || "").trim().length > 0;
   const hasEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((emailEl?.value || "").trim());
   const hasHotel = !!(sarState.peer && sarState.peer.hotel);
-  if(nextBtn) nextBtn.disabled = !(hasName && hasEmail && hasHotel && !!(sarState.peer && sarState.peer.confirm24));
+  if(nextBtn) nextBtn.disabled = !(hasName && hasEmail && hasHotel);
 }
 function updateHeaderTitle(){
   const slot = document.getElementById('sarPageTitle');
